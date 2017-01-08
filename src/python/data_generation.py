@@ -16,6 +16,8 @@ import numpy as np
 import sys
 import random
 
+
+
 alphabet = ['A','B','C','D'];  filename='file1.txt'
 num_sequences=1000;            probability=0.07
 
@@ -30,8 +32,15 @@ def write_sequences_to_file(list_of_sequences,filename,header=None):
     for sequence in list_of_sequences:
         to_write += str(sequence)[1:-1] + '\n' #add new sequence [A,B,C] as "A B C" 
 
-    to_write = to_write.replace("'","")
-    to_write = to_write.replace(" ","")
+    write_to_file(filename,to_write)
+
+
+def write_to_file(filename,to_write,header=None):
+    #trim useless characters
+    #to_write = to_write.replace("'","")
+    #to_write = to_write.replace(" ","")
+    #to_write = to_write.replace(",","")
+    
     if header != None:
         to_write = header + '\n' + to_write
 
@@ -65,7 +74,7 @@ def insert_noise_to_sequence(sequence,noise, probability,  insert_noise_in_other
     #n is number of times to insert the noise sub-seq.for now n is taken from normal disturbiution.
     n = int(np.random.normal(loc=mean, scale=5.0)) #should prob change this to get any disturbiution function.
     
-    #create random index to insert noise.
+    #create random indexes to insert noise.
     random_numbers = [random.randint(0,len(sequence)) for i in range(n)]
     random_numbers.sort()
 
@@ -109,8 +118,13 @@ def count_frequency(sequence,sub_sequence):
 
 
 
-alphabet = ['A','B','C','D']
-generate_sequences(['A','B','C'],probability=0.07,filename='file1.txt',num_sequences=1000,alphabet = ['A','B','C','D'])
+
+#generate_sequences(['A','B','C'],probability=0.07,filename='file1.txt',num_sequences=10000,alphabet = ['A','B','C','D'])
 
 
-
+noise = list('noise')
+text = open('1984.txt').read()
+text = text.lower()
+text = list(text)
+noisy_text = insert_noise_to_sequence(text,noise,0.005)
+write_to_file('1984_noise.txt',''.join(noisy_text))
