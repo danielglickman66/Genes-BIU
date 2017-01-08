@@ -32,16 +32,13 @@ def write_sequences_to_file(list_of_sequences,filename,header=None):
     
     #append all the list to one big string for writing it all at once later.
     for sequence in list_of_sequences:
-        to_write += str(sequence)[1:-1] + '\n' #add new sequence [A,B,C] as "A B C" 
+        to_write += clean(str(sequence)[1:-1]) + '\n' #add new sequence [A,B,C] as "A B C" 
 
     write_to_file(filename,to_write,header)
 
 
 def write_to_file(filename,to_write,header=None):
-    #trim useless characters
-    to_write = to_write.replace("'","")
-    to_write = to_write.replace(" ","")
-    to_write = to_write.replace(",","")
+
     
     if header != None:
         to_write = header + '\n' + to_write
@@ -99,7 +96,11 @@ def insert_noise_to_sequence(sequence,noise, probability,  insert_noise_in_other
 
     return sequence
 
-
+def clean(txt):
+        #remove punctuation
+        for char in string.punctuation + ' ':
+            txt = txt.replace(char, '')
+        return txt
 
 def generate_random_sequence(alphabet,sequence_length):
      seq = []
@@ -125,20 +126,18 @@ def noisy_from_existing_file(filename,prob, noise, no_space = True):
     text = open(filename).read()
     text = text.lower()
 
-    if no_space:
-        text = text.replace(' ','')
-
-    #remove punctuation
-    for char in string.punctuation:
-        text = text.replace(char, '')
-
-    text = list(text)
-    noisy_text = insert_noise_to_sequence(text,noise,prob)
     header = "#" + str(noise)[1:-1] + ' ' + str(prob) + ' //number of noise sequence inserted is noraml distributed with mean=length(sequence)*probability'
-    write_to_file(new_filename,''.join(noisy_text),header)
+    text = text.split(' ')
+    noisy_text = insert_noise_to_sequence(text,noise,prob)
+    if no_space:
+               
+        write_to_file(new_filename,clean(''.join(noisy_text)),header)
+    
+    else:    
+        write_to_file(new_filename,' '.join(noisy_text),header)
 
-
-
+   
+        
 
 
 filename = sys.argv[1]
