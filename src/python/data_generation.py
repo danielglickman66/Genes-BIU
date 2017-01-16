@@ -48,13 +48,20 @@ def write_to_file(filename,to_write,header=None):
 
 
 #helper to create the files and sequences.
-def generate_sequences(noise,probability,filename,num_sequences,alphabet = ['A','B','C','D']):
-    all_sequences = []
-    for i in range(num_sequences):
-        sequence_length = random.randint(300,600)
-        all_sequences.append(generate_random_sequence(alphabet,sequence_length))
+#if noisy_like_original is false, will create 2 different set of random sequences , but one has noise inserted to it.
+def generate_sequences(noise,probability,filename,num_sequences,alphabet = ['A','B','C','D'],noisy_like_original =True):
+    def gen_seq():
+        all_sequences = []
+        for i in range(num_sequences):
+            sequence_length = random.randint(300,600)
+            all_sequences.append(generate_random_sequence(alphabet,sequence_length))
+        return all_sequences
 
+    all_sequences = gen_seq()
     write_sequences_to_file(all_sequences,filename)
+
+    if not noisy_like_original:
+        all_sequences = gen_seq()
 
     for i in range(num_sequences):
         all_sequences[i] = insert_noise_to_sequence(all_sequences[i],noise,probability)
@@ -75,14 +82,14 @@ def insert_noise_to_sequence(sequence,noise, probability,  insert_noise_in_other
     n = int(np.random.normal(loc=mean, scale=5.0)) #should prob change this to get any disturbiution function.
     
     #create random indexes to insert noise.
-    random_numbers = [random.randint(0,len(sequence)) for i in range(n)]
+    random_numbers = [random.randint(0,len(sequence)+1) for i in range(n)]
     random_numbers.sort()
 
     """ (1) keep track of how much noise we added.
     by doing so,we make sure we will not insert a noise sequence in between another earlier noise sequence.
     (e.g we had AB and inserted noise to make AXYZB.this algorithm will NOT break the first XYZ like so:AXYXYZZB)"""
     if not insert_noise_in_other_noise:
-        noise_offset = len(noise)
+        noise_offset = 1
     else:
          noise_offset = 0 #ignore offset by keeping it zero.
 
@@ -90,7 +97,9 @@ def insert_noise_to_sequence(sequence,noise, probability,  insert_noise_in_other
     
     for number in random_numbers:
         #add the noise list at each random index.
-        sequence[number+offset_from_noise:number+offset_from_noise] = noise
+        #sequence[number+offset_from_noise:number+offset_from_noise] = noise
+        sequence.insert(number + offset_from_noise,noise) 
+        #sequence[0:number] + [noise] + sequence[number:]
         offset_from_noise += noise_offset
 
 
@@ -120,35 +129,43 @@ def count_frequency(sequence,sub_sequence):
     return count
 
                                                     #if true, trim spaces from text.
-def noisy_from_existing_file(filename,prob, noise, no_space = True):
+def noisy_from_existing_file(filename,noises, no_space = True):
 
     new_filename = 'noisy_' + filename
     text = open(filename).read()
     text = text.lower()
 
-    header = "#" + str(noise)[1:-1] + ' ' + str(prob) + ' //number of noise sequence inserted is noraml distributed with mean=length(sequence)*probability'
-    text = text.split(' ')
-    noisy_text = insert_noise_to_sequence(text,noise,prob)
+    #header = "#" + str(noise)[1:-1] + ' ' + str(prob) + ' //number of noise sequence inserted is noraml distributed with mean=length(sequence)*probability'
+    noisy_text = text.split(' ')
+    for prob,noise in noises:
+        noisy_text = insert_noise_to_sequence(noisy_text,noise,prob)
     if no_space:
                
-        write_to_file(new_filename,clean(''.join(noisy_text)),header)
+        write_to_file(new_filename,clean(''.join(noisy_text)))
     
     else:    
-        write_to_file(new_filename,' '.join(noisy_text),header)
+        write_to_file(new_filename,' '.join(noisy_text))
 
-   
+"""
+input: this_is_a_string
+output: this is a string
+"""
+def to_regular_string(s):
+    s = s.split('_')
+    return ' '.join(s)   
         
 
 
 filename = sys.argv[1]
-prob = float(sys.argv[2])
+
 
 
 if '-RANDOM-SEQ' in sys.argv:
     sys.argv.remove('-RANDOM-SEQ')
-    noise=['A','B','C']
-    num_sequences = int(sys.argv[3])
-    generate_sequences(noise,prob, filename, num_sequences,alphabet)
+    prob = float(sys.argv[2])
+    noise= 'CAC'
+    num_sequences = int(sys.argv[-1])
+    generate_sequences(noise,prob, filename, num_sequences,alphabet,False)
 
 else:
     no_space = False
@@ -156,7 +173,13 @@ else:
         sys.argv.remove('-no_space')
         no_space = True
 
-    noise = sys.argv[3:]
+    noises = []
+    i = 2
+    while i in range(len(sys.argv)): 
+        prob = float(sys.argv[i])
+        noise = to_regular_string(sys.argv[i+1])
+        noises.append((prob,noise))
+        i += 2
 
-    noisy_from_existing_file(filename,prob,noise,no_space)
+    noisy_from_existing_file(filename,noises,no_space)
 
