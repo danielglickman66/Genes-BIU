@@ -18,7 +18,7 @@ import numpy as np
 import sys
 import random
 import string
-
+import os
 
 alphabet = ['A','B','C','D'];  
 
@@ -32,7 +32,7 @@ def write_sequences_to_file(list_of_sequences,filename,header=None):
     
     #append all the list to one big string for writing it all at once later.
     for sequence in list_of_sequences:
-        to_write += clean(str(sequence)[1:-1]) + '\n' #add new sequence [A,B,C] as "A B C" 
+        to_write += clean(str(sequence)[1:-1])  #add new sequence [A,B,C] as "A B C" 
 
     write_to_file(filename,to_write,header)
 
@@ -105,10 +105,14 @@ def insert_noise_to_sequence(sequence,noise, probability,  insert_noise_in_other
 
     return sequence
 
-def clean(txt):
+def clean(txt , trim_newlines = False):
         #remove punctuation
         for char in string.punctuation + ' ':
             txt = txt.replace(char, '')
+        if trim_newlines:
+            txt = txt.replace('\n', '')
+            txt = txt.replace('\r', '')
+
         return txt
 
 def generate_random_sequence(alphabet,sequence_length):
@@ -146,6 +150,23 @@ def noisy_from_existing_file(filename,noises, no_space = True):
     else:    
         write_to_file(new_filename,' '.join(noisy_text))
 
+
+
+#creates a new file from original.
+#the orignal files is cut into strings of length n_col and each line is such string.
+def format_file(orignal , new ,  n_col , n_lines=0 ):
+    text = open(orignal).read()
+    text = text.lower()
+    text = clean(text, True)
+
+    with open(new , 'wb') as f:
+        s = ''
+        for i in range(0,len(text) , n_col):
+            s += text[i:i+n_col] +'\n'
+        f.write(s)
+
+
+
 """
 input: this_is_a_string
 output: this is a string
@@ -155,31 +176,44 @@ def to_regular_string(s):
     return ' '.join(s)   
         
 
+if len(sys.argv) > 1:
+    #format original new n_col
+    if 'format' in sys.argv:
+        sys.argv.remove('format')
+        filename = sys.argv[1]
+        if len(sys.argv) > 3:
+            new = sys.argv[2]
+            sys.argv.remove(new)
+        else : new = 'format_'+filename
+        n_col = int(sys.argv[2])
 
-filename = sys.argv[1]
+        if os.path.isdir(filename):
+            for f in os.listdir(filename):
+                format_file(filename+'/'+f ,'format_'+f , n_col )
+        else :
+            format_file(filename , new , n_col)
 
+    elif '-RANDOM-SEQ' in sys.argv:
+        sys.argv.remove('-RANDOM-SEQ')
+        filename = sys.argv[1]
+        prob = float(sys.argv[2])
+        noise= 'CAC'
+        num_sequences = int(sys.argv[-1])
+        generate_sequences(noise,prob, filename, num_sequences,alphabet,False)
 
+    else:
+        no_space = False
+        if '-no_space' in sys.argv:
+            sys.argv.remove('-no_space')
+            no_space = True
+        filename = sys.argv[1]
+        noises = []
+        i = 2
+        while i in range(len(sys.argv)): 
+            prob = float(sys.argv[i])
+            noise = to_regular_string(sys.argv[i+1])
+            noises.append((prob,noise))
+            i += 2
 
-if '-RANDOM-SEQ' in sys.argv:
-    sys.argv.remove('-RANDOM-SEQ')
-    prob = float(sys.argv[2])
-    noise= 'CAC'
-    num_sequences = int(sys.argv[-1])
-    generate_sequences(noise,prob, filename, num_sequences,alphabet,False)
-
-else:
-    no_space = False
-    if '-no_space' in sys.argv:
-        sys.argv.remove('-no_space')
-        no_space = True
-
-    noises = []
-    i = 2
-    while i in range(len(sys.argv)): 
-        prob = float(sys.argv[i])
-        noise = to_regular_string(sys.argv[i+1])
-        noises.append((prob,noise))
-        i += 2
-
-    noisy_from_existing_file(filename,noises,no_space)
+        noisy_from_existing_file(filename,noises,no_space)
 
