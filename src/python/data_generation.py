@@ -177,7 +177,7 @@ def to_regular_string(s):
         
 
 if len(sys.argv) > 1:
-    #format original new n_col
+    # format original new n_col
     if 'format' in sys.argv:
         sys.argv.remove('format')
         filename = sys.argv[1]
