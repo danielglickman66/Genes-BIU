@@ -24,6 +24,8 @@ def eval_reg(individual,lines,fitness=eval_single):
         indexs = [random.randint(0,len(line) - len(individual)) for i in range(7)]
         for index in indexs:
             score += fitness(individual,line[index:index+len(individual)+1])
+            """ score ~= to count in Z score.. we can compute here the mean and stdev by saving all fitness
+            result and approximate the Z score """
     return score
 
 
