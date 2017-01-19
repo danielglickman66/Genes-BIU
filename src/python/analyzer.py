@@ -1,6 +1,6 @@
 from collections import defaultdict
 import sys
-
+from suffixhash import *
 #number of sub-sequences to display.
 top_n = 20
 
@@ -32,9 +32,34 @@ def substract_dicts(d1,d2):
 
     return d3
 
+def make_zscore_dict(filename , max_len = 45 , appearance_threshold = 3):
+    s = f2array(filename)
+    d= count_all_by_len(s , max_len)
+    d = compute_zscore(d , appearance_threshold)
+    return d
 
-f1 = sys.argv[1]
-f2 = sys.argv[2]
+#input is dict of dicts
+def dict2file(dic,outfile):
+    with open(outfile , 'wb') as f:
+        for key in dic:
+            s = ''
+            vector = dic[key]
+            for word in vector:
+                s += word +'    ' + str(vector[word]) + '\n'
+            f.write(s)
+
+
+f1 = 'v1.stats'
+f2 = 'v2.stats'
+input1 = sys.argv[1]
+input2 = sys.argv[2]
+
+d = make_zscore_dict(input1)
+dict2file(d , f1)
+
+d = make_zscore_dict(input2)
+dict2file(d , f2)
+
 
 d1 = std_dict(f1)
 d2 = std_dict(f2)
