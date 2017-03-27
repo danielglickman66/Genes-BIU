@@ -1,12 +1,7 @@
 from collections import defaultdict , Counter
 import string
 from sklearn.feature_extraction import DictVectorizer
-
-class hashcollection:
-    def __init__(self,hash_by_lens):
-        self.hash = hash_by_lens
-    def find(string):
-        return self.hash[len(string)][string]
+from utility import hash_collection
 
 def count_substrings(string , dic, max_len = 30):
     for i in range(len(string)):
@@ -47,8 +42,8 @@ def compute_zscore(dic_by_len , threshold):
         std = vector.std()
         for key in dic:
             dic[key] = (dic[key] - mean) /std
-        dic_by_len[length] = dic
-    return dic_by_len
+        dic_by_len[length] = Counter(dic)
+    return hash_collection.HashCollection(dic_by_len)
 
 
 alphabet = list(string.ascii_lowercase) +['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -62,10 +57,3 @@ def str2quad(string):
         as_quad += exp * char2index[string[i]]
         exp *= base
     return as_quad
-
-def f2array(filename):
-    f=  open(filename)
-    s = []
-    for line in f:
-        s.append( ''.join(line.split()))
-    return s
