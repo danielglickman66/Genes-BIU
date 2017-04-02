@@ -22,3 +22,5 @@ class HashCollection:
                 raise StopIteration
             else: return self.next()
 
+
+    def len(self): return sum([len(h) for h in self.hash])

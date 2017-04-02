@@ -27,6 +27,12 @@ def launch_shell_no_wait(command):
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
 
 
+def f2array(filename):
+    f=  open(filename)
+    s = []
+    for line in f:
+        s.append( ''.join(line.split()))
+    return s
 
 """
 extracts from each line of the file the the first filed and the field specifed in column(default is last column).
