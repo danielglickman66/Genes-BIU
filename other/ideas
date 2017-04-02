@@ -1,0 +1,13 @@
+ - disgard substring with zclose to 0
+ 
+instead of using z-score , keep mean and var and use probability to get such score on a normal distr with such mean and var.
+
+cluster sub-seq to good in A/good in B / dont care.
+
+cluster sub-seq by edit distance to reduce features number.////- suffix :
+compute pmi of substring by cutting in half and pmi = log( #(ab) / (#b * #a) )
+
+
+1 seq classifier to use as prob for bayes
+
+random mutation to create more data

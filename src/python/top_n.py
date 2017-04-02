@@ -1,4 +1,4 @@
-from code.utility.utility import *
+from utility.utility import *
 
 """
 extract the top lines in a file, according to the attribute at the given column.
