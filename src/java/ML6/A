@@ -1,0 +1,41 @@
+
+L
+(i.e., the size of the input data); a single hidden layer of
+size
+M
+; and an output layer of size
+N
+. That way, if we include the bias, there are
+(
+L
++ 1)
+
+M
+weights between the input and the hidden layer, denoted by
+v
+, where the weight
+v
+ij
+connects
+1
+neuron
+i
+to neuron
+j
+of the following layer. There are
+(
+M
++ 1)
+
+N
+weights between the hidden
+layer and the output layer, denoted by
+w
+, where the weight
+w
+jk
+connects neuron
+j
+to neuron
+k
+of the following la
