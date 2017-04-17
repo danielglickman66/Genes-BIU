@@ -1,0 +1,11 @@
+
+news:tech , talk , 200:400:200 , maxlen=12 score = 0.845 logistic ,  svm n_feats = 10k
+news:tech , talk , 200:400:200 , maxlen=15 score = 0.825 logistic ,  svm n_feats = 10k
+news:tech , talk , 200:400:200 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
+
+news:tech , talk , 400:600:300 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
+
+news:tech , talk , 200:400:200 , maxlen=10 score = 0.83 logistic ,  svm n_feats = 50k
+
+news:tech , talk , 300:600:300 , maxlen=10 score = 0.876 logistic ,  0.866 random_forest n_feats = 30k
+news:tech , talk , 300:600:300 , maxlen=15 score = 0.866 logistic ,  0.826 random_forest n_feats = 30k

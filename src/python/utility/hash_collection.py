@@ -5,7 +5,9 @@ class HashCollection:
         self.curr_iter = self.hash[self.iter.next()].__iter__()
 
     def __getitem__(self, key):
-        return self.hash[len(key)][key]
+        val =  self.hash[len(key)][key]
+        if val != 0: return val
+        else: return -10.
 
     def __iter__(self): return self
 
@@ -23,4 +25,6 @@ class HashCollection:
             else: return self.next()
 
 
-    def len(self): return sum([len(h) for h in self.hash])
+    def __len__(self): return sum([len(h) for h in self.hash])
+
+    def __contains__(self , key): return self.hash[len(key)].__contains__(key)

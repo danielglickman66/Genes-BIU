@@ -3,7 +3,7 @@ import pre_processor
 
 def remove_punct(txt):
     # remove punctuation
-    for char in string.punctuation :
+    for char in string.punctuation + '\t' :
         txt = txt.replace(char, '')
     return txt
 
