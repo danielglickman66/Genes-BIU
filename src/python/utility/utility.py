@@ -45,14 +45,14 @@ b   200     y
 file2dict(file , 2) will return {a:x , b:y}
 
 """
-def file2dict(filename , column=-1):
+def file2dict(filename , name_column=0 ,score_column=-1 ):
 
     dic = defaultdict(float)
     with open(filename,'r') as f:
         for line in f:
             line = line.split()
-            string = line[0]
-            score = float(line[column])
+            string = line[name_column]
+            score = float(line[score_column])
             dic[string] = score
 
     return dic

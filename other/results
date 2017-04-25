@@ -1,0 +1,42 @@
+
+news:tech , talk , 200:400:200 , maxlen=12 score = 0.845 logistic ,  svm n_feats = 10k
+news:tech , talk , 200:400:200 , maxlen=15 score = 0.825 logistic ,  svm n_feats = 10k
+news:tech , talk , 200:400:200 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
+
+news:tech , talk , 400:600:300 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
+
+news:tech , talk , 200:400:200 , maxlen=10 score = 0.83 logistic ,  svm n_feats = 50k
+
+news:tech , talk , 300:600:300 , maxlen=10 score = 0.876 logistic ,  0.826 random_forest n_feats = 30k
+news:tech , talk , 300:600:300 , maxlen=10 score = 0.67 logistic ,  0.853 random_forest n_feats = 30k USING COUNT NOT Z
+
+news:tech , talk , 300:600:300 , maxlen=15 score = 0.866 logistic ,  0.826 random_forest n_feats = 30k
+news:tech , talk , 600:300 ,  score = 0.856 logistic ,  0.866 random_forest
+
+
+
+
+classifying tech/talk using Zscore and difference extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300                  600              0.876666666667      0.856666666667    30000           10
+
+classifying tech/talk using regular count and difference extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300                   600              0.67                0.84             30000           10
+
+
+
+classifying tech/talk using Zscore and difference extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+400                   800             0.9075              0.8475            40000           12
+
+classifying tech/talk using regular count and difference extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+400                  800              0.74                0.8175            40000           12
+
+classifying tech/talk using STD-NORMALIZED count and difference extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+400                  800              0.957               0.8475            40000           12
+
+
+#normalizing the z scores again is pretty bad for logistic , okish for forest

@@ -1,18 +1,19 @@
 """ tech/talk text classification , z-score with difference selector"""
 
-from Z_extractor import Z_Extractor
+from count_extractor import Count_Extractor
 import  features_selection.difference_selector
 from preprocessors.text_processor import Text_PreProcessor
 from sklearn.datasets import fetch_20newsgroups as fetch
 from feature_manager import  Feature_Manager
 
-seq_for_stats = 300 #amount to take from each corpus
-seq_for_train = 600
+seq_for_stats = 400 #amount to take from each corpus
+seq_for_train = 800
 seq_for_test  = 400
-num_features = 20000 #sub_sequence that the classifer will use
+num_features = 40000 #sub_sequence that the classifer will use
+sub_seq_len = 12
+num_as_item = 3
 
-sub_seq_len = 10
-num_as_item = 1
+
 
 processor = Text_PreProcessor(60000)
 talk_cat = [ 'talk.politics.guns',
@@ -34,7 +35,7 @@ news_talk_train = processor.batch_process(news_talk_train.data)
 news_tech_train = processor.batch_process(news_tech_train.data)
 
 
-extractor = Z_Extractor(sub_seq_len)
+extractor = Count_Extractor(sub_seq_len)
 selector = features_selection.difference_selector.Difference_Selector()
 
 fm = Feature_Manager(extractor , selector)
@@ -126,8 +127,7 @@ clf = RandomForestClassifier(n_estimators=10)
 clf.fit(fm.transform(X_train) , y_train)
 random_forest_score = str( clf.score(fm.transform(X_test) , y_test))
 
-
-s = 'classifying tech/talk using Zscore and difference extractor: \n#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen\n'
-s += str(seq_for_stats) +'     ' +str(seq_for_train) +'       ' + logistic_score +'    ' + random_forest_score +'      ' + str(num_features) +'        ' +str(sub_seq_len)
+s = 'classifying tech/talk using regular count and difference extractor: \n#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen\n'
+s += str(seq_for_stats) +'          ' +str(seq_for_train) +'             ' + logistic_score +'       ' + random_forest_score +'      ' + str(num_features) +'         ' +str(sub_seq_len)
 
 print s

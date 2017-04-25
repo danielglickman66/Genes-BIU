@@ -24,35 +24,15 @@ tech_cat = ['comp.graphics',
 news_talk_train = fetch(subset='all' , categories =talk_cat)
 news_tech_train = fetch(subset='all' , categories = tech_cat)
 
-
-news_talk_train = processor.batch_process(news_talk_train.data)
-news_tech_train = processor.batch_process(news_tech_train.data)
-
-
-
-
-
-
-
 X = []
 Y = []
 talk_tag , tech_tag = 0 ,1
 
-
-"""
-for i in range(seq_for_stats ,seq_for_stats+seq_for_train ,num_as_item):
-    X.append(news_tech_train[i:i+num_as_item])
+for text in news_tech_train.data[seq_for_stats:seq_for_stats+seq_for_train]:
+    X.append(text)
     Y.append(tech_tag)
-for i in range(seq_for_stats ,seq_for_stats+seq_for_train ,num_as_item):
-    X.append(news_talk_train[i:i + num_as_item])
-    Y.append(talk_tag)
-
-"""
-for text in news_tech_train[seq_for_stats:seq_for_stats+seq_for_train]:
-    X.append([text])
-    Y.append(tech_tag)
-for text in news_talk_train[seq_for_stats:seq_for_stats+seq_for_train]:
-    X.append([text])
+for text in news_talk_train.data[seq_for_stats:seq_for_stats+seq_for_train]:
+    X.append(text)
     Y.append(talk_tag)
 
 
@@ -76,6 +56,6 @@ logistic.fit(count_vec.transform(X_train) , y_train)
 print logistic.score(count_vec.transform(X_test) , y_test)
 
 from sklearn.ensemble import RandomForestClassifier
-#clf = RandomForestClassifier(n_estimators=10)
-#lf.fit(fm.transform(X_train) , y_train)
-#print clf.score(fm.transform(X_test) , y_test)
+clf = RandomForestClassifier(n_estimators=10)
+clf.fit(count_vec.transform(X_train) , y_train)
+print clf.score(count_vec.transform(X_test) , y_test)

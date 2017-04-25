@@ -3,9 +3,9 @@ from features_selection import difference_selector
 from sklearn.feature_extraction import DictVectorizer
 
 class Feature_Manager():
-    def __init__(self):
-        self.extractor = Z_Extractor(15)
-        self.selector = difference_selector.Difference_Selector()
+    def __init__(self , extractor , selector):
+        self.extractor = extractor
+        self.selector = selector
 
     #build the features base for the first time.
     def init_features(self , source_A , source_B , num_features):
