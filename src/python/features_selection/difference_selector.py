@@ -27,6 +27,7 @@ class Difference_Selector(Features_Selector):
         return [ {key:val for key,val in d3[0:num_features/2] }   , {key:val for key,val in d3[-num_features/2:] }  ]
 
 
+
 def print_top(top_n):
     print 'Top ' + str(top_n) + ' who are stronger in ' + f2 + ':'
     for key, val in d3[0:top_n]:

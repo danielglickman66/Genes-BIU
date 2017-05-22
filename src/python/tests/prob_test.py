@@ -10,9 +10,10 @@ txt = open('./files/stuff/1984.txt').read()
 s = processor.process(txt)
 from Z_extractor import Z_Extractor
 
-#extractor = Z_Extractor()
-#d = extractor.extract(s , 20 , 0)
-d = count_all_by_len(s, max_len=15 , prob=1.0)
+zextractor = Z_Extractor()
+z = zextractor.extract(s , 11 , 0)
+
+d = count_all_by_len(s, max_len=11 , prob=1.0)
 d = hash_collection.HashCollection(d)
 sum([len(d.hash[x]) for x in d.hash])
 import scipy.stats as st
