@@ -1,0 +1,13 @@
+-fixed evaluator
+- standard z preforms best ~ 60 F
+
+- thec - high prob because the - fix p(thec | the)
+
+- winsto - high prob beacuse winston - fix (1 - p(winston | winso) ) if next char is n
+
+- wordonceseen - transition is always high because word was seen once - fix :smooth transition.
+
+
+
+p_my_z : best so far , prob for new word : 0.25
+(0.6865183840217884, 0.6791808873720137, 0.6828299246015621)

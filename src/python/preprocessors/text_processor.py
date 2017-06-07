@@ -13,6 +13,20 @@ def remove_spaces(txt):
     char = ' '
     return txt.replace(char, '')
 
+#try and restore paul cohen's segmentation.
+#cut text to segments of length n_cols chars.
+#only english chars count in n_cols , but spaces do not ,
+# so string length of returned asnwer will be > n_col.( and equal n_col + n_spaces)
+#returns 1 string.
+def cut_by_length_ignore_spaces(txt , n_col):
+    chars_seen = 0
+    for i  in range(len(txt)):
+        if txt[i] in string.letters+string.digits:
+            chars_seen += 1
+        if chars_seen == n_col:
+            return txt[0:i]
+
+
 def cut_by_length(txt, n_col=600):
     txt = txt.replace('\n', '')
     txt = txt.replace('\r', '')

@@ -50,10 +50,11 @@ def file2dict(filename , name_column=0 ,score_column=-1 ):
     dic = defaultdict(float)
     with open(filename,'r') as f:
         for line in f:
-            line = line.split()
-            string = line[name_column]
-            score = float(line[score_column])
-            dic[string] = score
+            line = line.replace('\x00','').replace(',','').split()
+            if line:
+                string = line[name_column]
+                score = float(line[score_column])
+                dic[string] = score
 
     return dic
 

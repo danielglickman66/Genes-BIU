@@ -24,7 +24,7 @@ def top_n_2file(filename , n_lines ,column ,  reverse_order = False):
     launch_shell_waiting(command)
 
     #sort again by name
-    new_file = 'top_' +filename
+    new_file = 'top_' +filename #filename[filename.rfind('/')+1:]
     command = 'sort -k 1 top > '+ new_file 
     launch_shell_waiting(command)
 
