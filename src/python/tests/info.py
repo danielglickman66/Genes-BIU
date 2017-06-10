@@ -1,5 +1,5 @@
 
-from count_extractor import *
+from extractors.count_extractor import *
 
 count_ex = Count_Extractor(11)
 filename = 'files/input1/format_1984.txt'
