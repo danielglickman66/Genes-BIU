@@ -3,13 +3,13 @@ import math
 import sys
 from presteps import *
 import len_dist
+import scipy.stats as st
 
 
 
 
+def prob(str , counter ,  eps=0.001 ): return max(st.norm._cdf(counter(str)), eps)
 
-def prob(str , counter ,  eps=0.01 ): return max(st.norm._cdf(counter(str)), eps)
-def prob_weak(str ,counter, eps=0.01): return max(st.norm._cdf(counter(str)/2), eps)
 
 from scipy.stats import poisson
 def pos(str , mu=4.8):
@@ -37,10 +37,14 @@ def q_ignore(prefix , char , counter=0): return 1.
 
 
 def q(prefix , c , counter , alpha =1.):
-    if prefix == '': return 1./4
+    if prefix == '': return 1./26
 
     return float(counter(prefix + c)) / (alpha+ counter(prefix))
 
+def q_reverse(c , suffix , counter , alpha =1.):
+    if c == '': return 1./26
+
+    return float(counter( c + suffix)) / (alpha+ counter(suffix))
 
 
 alpha = 1.
@@ -91,18 +95,18 @@ class Q_Prob(Probability):
 class Neg_Prob:
     def __init__(self , prob): self.f = prob
 
-    def __call__(self, *args, **kwargs): return 1 - self.f(*args , **kwargs)
+    def __call__(self, *args, **kwargs): return max(1 - self.f(*args , **kwargs) , 0.0001) #avoid log errors
 
 
-class Local_Qp():
-    get qp and functions , do last step of segment_probability
+#class Local_Qp():
+#get qp and functions , do last step of segment_probability
 class Segment_Probability:
     #function can be a probability class
     def __init__(self,qp , function):
         self.qp = qp
         self.f = function
-        self.eps = 0.01
         self.new_word_prob = 1.
+        self.backwards_exponent = [1.] * 100 #default , take as is.
 
     def __call__(self, s):
         pi = 1.
@@ -116,18 +120,18 @@ class Segment_Probability:
             p = self.f(curr) #substring up to i
 
 
-            #q1 = float(self.counter(s[0:i+2])) / self.counter(s[0:i+1])
+
 
             q_next = self.qp(curr , s[i+1])
 
-            q_prev = self.qp(prev , s[i])
+            q_prev = self.qp(prev , s[i]) ** self.backwards_exponent[i]
 
             p_word_at_i = ( p * q_prev * (1 - q_next))
 
             pi = pi * ( 1 - p_word_at_i)
 
         p = self.f(s)
-        q_prev = self.qp(s[:-1] , s[-1])
+        q_prev = self.qp(s[:-1] , s[-1]) ** self.backwards_exponent[-1]
         pi = pi * p * q_prev
 
         return pi * self.new_word_prob
@@ -138,8 +142,9 @@ d_count = Counter(d)
 z_count = Counter(d_z)
 
 
-
 qp = Q_Prob(d_count , q)
+neg = Neg_Prob(qp)
+
 p1 = Probability(z_count , prob)
 
 q1 = Probability(d_count , q_exp)
@@ -147,7 +152,9 @@ q1 = Probability(d_count , q_exp)
 p_my_z = Probability(d_count , my_z_prob)
 p_linear = Probability(d_count , linear_prob)
 
-segs = [p1 , q1 , p_my_z , p_linear]
+seg_prob = Segment_Probability(qp , p1)
+
+segs = [p1  , p_my_z , p_linear]
 
 
 l = len_dist.ratios_to_list(ratios)

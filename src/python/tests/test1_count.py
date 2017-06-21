@@ -1,10 +1,10 @@
 """ tech/talk text classification , z-score with difference selector"""
 
-from count_extractor import Count_Extractor
 import  features_selection.difference_selector
+from extractors.count_extractor import Count_Extractor
+from feature_manager import  Feature_Manager
 from preprocessors.text_processor import Text_PreProcessor
 from sklearn.datasets import fetch_20newsgroups as fetch
-from feature_manager import  Feature_Manager
 
 seq_for_stats = 400 #amount to take from each corpus
 seq_for_train = 800
@@ -116,7 +116,7 @@ X_test = X[seq_for_train:seq_for_train+seq_for_test]
 y_test = Y[seq_for_train:seq_for_train+seq_for_test]
 
 
-from sklearn import datasets, neighbors, linear_model
+from sklearn import linear_model
 logistic = linear_model.LogisticRegression(solver='sag')
 
 logistic.fit(fm.transform(X_train) , y_train)

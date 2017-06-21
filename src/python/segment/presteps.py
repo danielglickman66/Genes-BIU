@@ -1,13 +1,11 @@
+from extractors.count_extractor import Count_Extractor
+from extractors.Z_extractor import Z_Extractor
 from preprocessors.text_processor import *
-import scipy.stats as st
-from Z_extractor import Z_Extractor
-from count_extractor import Count_Extractor
-
 
 filename = './files/stuff/1984.txt'
 #filename = '1984.txt'
 
-len_text = 50000
+len_text = 50 *1000
 subseq_len = 20
 
 
@@ -18,6 +16,9 @@ txt = remove_punct(txt)
 gold_sentence = cut_by_length_ignore_spaces(txt , len_text)
 
 processor = Text_PreProcessor(len_text)
+
+#processor.funcs.remove(string.lower)
+
 s = processor.process(gold_sentence)
 
 z_extractor = Z_Extractor(subseq_len)

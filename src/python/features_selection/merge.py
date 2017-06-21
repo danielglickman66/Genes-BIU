@@ -1,55 +1,55 @@
 
-def merge(f1 , f2):
-    f1 , f2 = file_decorator(f1) , file_decorator(f2)
+key , val = 0 , 1
+
+"""
+merges scores from 2 sources(e.g substrings , z-score file)
+input:
+f1,f2 iterables. next should returns (key , val)
+l - data structure to hold and filter the data
+"""
+def merge(f1 , f2 , l):
+
+
     a , b = next(f1 , False) , next(f2 , False)
 
-    l = []
+
     while True:
         if a == False and b == False :
             break
 
         if a == False:
-            l.append(b)
-            l.extend(f2)
-            break
+            l.append(a,b)
+            b = next(f2, False)
+            continue
+
         if b == False:
-            l.append(a)
-            l.extend(f1)
-            break
+            l.append(a,b)
+            a = next(f1, False)
+            continue
 
 
-        if a == b:
-            l.append( a+b) #cange
+        if a[key] == b[key]:
+            l.append( a , b)
             a = next(f1 , False)
             b = next(f2, False)
-
-        elif a < b:
-            l.append(a)
+        elif a[key] < b[key]:
+            l.append(a , False)
             a = next(f1 , False)
         else :
-            l.append(b)
+            l.append(False , b)
             b = next(f2 , False)
+
+
     return l
 
 
 
-#return true strings
-def file_decorator(file):
-    with open(file) as f:
-        for line in f:
-            line = line.replace('\x00', '').replace(',', '').strip().split()
-            if line:
-                yield parser(line)
-
-
-def parser(line):
-    ( score , key) = (float(line[1]) , line[2])
-    return (score , key)
 
 
 
 import heapq
 class Heap:
+    #k is max heap size
     def __init__(self , max = True , k = 10**6):
         self.k = k
         if max:
@@ -71,24 +71,38 @@ class Heap:
             self.append(item)
 
 class MinHeap(Heap):
-    def __init__(self , k = 10**6):
+    def __init__(self , k ):
         Heap.__init__(self , False , k)
 
 class MaxHeap(Heap):
-    def __init__(self , k = 10**6):
+    def __init__(self , k ):
         Heap.__init__(self , True , k)
 
 
+
 class MinMaxFeatures:
-    def __init__(self , transformer):
-        self.minh = MinHeap()
-        self.maxh = MaxHeap()
+
+
+    # transformer - functions to rank the features of 2 items. gets 2 score floats returns 1 float
+    def __init__(self , transformer , size):
+        self.minh = MinHeap(size / 2)
+        self.maxh = MaxHeap(size / 2 )
         self.transformer = transformer
 
-    def append(self , a=None , b = None):
-        t = (score , key) = self.transformer(a , b)
-        self.maxh.append(t)
-        self.minh.append(t)
 
-    def extend(self , list):
-        self.append()
+    def append(self , a , b ):
+        if a and b:
+            score = self.transformer(a[val] , b[val])
+            name = a[key]  # == b[key]
+        elif a:
+            score = self.transformer(a = a[val])
+            name = a[key]  # == b[key]
+        else:
+            score = self.transformer(b = b[val])
+            name = b[key]  # == b[key]
+
+        self.maxh.append((score , name))
+        self.minh.append((score , name))
+
+
+

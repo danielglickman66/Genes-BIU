@@ -1,5 +1,3 @@
-from Z_extractor import Z_Extractor
-from features_selection import difference_selector
 from sklearn.feature_extraction import DictVectorizer
 
 class Feature_Manager():
@@ -15,14 +13,29 @@ class Feature_Manager():
 
 
     """
-    gets a list of strings.
+    gets a single input for extractor.
     """
     def extract_features(self , source):
         feats = self.extractor.extract(source)
-        return self.vectorizer.transform(feats.hash.values())
+        #return self.vectorizer.transform(feats.hash.values())
 
-    """ gets a list of lists of strings"""
+        if not isinstance(feats, list): #need for scitlearn
+            feats = [feats]
+        return self.vectorizer.transform(feats)
+
+    """ gets a list of inputs for extraction"""
     def transform(self, X):
+        extracted_vectors = []
+        if not isinstance(X, list): #need for scitlearn
+            X = [X]
+
+        for x in X:
+            extracted_vectors.append(self.extractor.extract(x))
+
+        return self.vectorizer.transform(extracted_vectors)
+
+
+        """
         def collection2dict(hash_collection):
             z = {}
             for _dict in hash_collection.hash.values():
@@ -35,3 +48,4 @@ class Feature_Manager():
             a= collection2dict(a)
             d.append(a)
         return self.vectorizer.transform(d)
+        """

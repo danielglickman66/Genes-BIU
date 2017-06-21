@@ -1,14 +1,10 @@
+from extractors.suffixhash import *
 from preprocessors.text_processor import Text_PreProcessor
-from sklearn.datasets import fetch_20newsgroups as fetch
-from feature_manager import  Feature_Manager
-from utility import hash_collection
-from suffixhash import *
-
 
 processor = Text_PreProcessor(600)
 txt = open('./files/stuff/1984.txt').read()
 s = processor.process(txt)
-from Z_extractor import Z_Extractor
+from extractors.Z_extractor import Z_Extractor
 
 zextractor = Z_Extractor()
 z = zextractor.extract(s , 11 , 0)

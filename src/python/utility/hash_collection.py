@@ -6,10 +6,15 @@ class HashCollection:
 
     def __getitem__(self, key):
         val =  self.hash[len(key)][key]
-        if val != 0: return val
-        else: return -10.
+        #if val != 0: return val
+        #else: return -10.
+        return val
 
     def __iter__(self): return self
+
+    def iteritems(self):
+        for key in sorted(self):
+            yield (key, self[key])
 
     def next(self):
         try:
@@ -23,6 +28,7 @@ class HashCollection:
                 self.iter = self.hash.__iter__()
                 raise StopIteration
             else: return self.next()
+
 
 
     def __len__(self): return sum([len(h) for h in self.hash])

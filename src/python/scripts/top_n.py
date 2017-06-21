@@ -5,7 +5,6 @@ extract the top lines in a file, according to the attribute at the given column.
 the extracted lines are saved to a new file.
 
 input : filename - file to extract from.
-        params   - a list of strings (for now, probably sys.argv)
         colum    - int, colum number. starts at 1.
         reverse_order - if True get the buttom n.
         default_thres - used if params do not specify the threshold.
@@ -24,7 +23,7 @@ def top_n_2file(filename , n_lines ,column ,  reverse_order = False):
     launch_shell_waiting(command)
 
     #sort again by name
-    new_file = 'top_' +filename #filename[filename.rfind('/')+1:]
+    new_file = 'top_' + filename[filename.rfind('/')+1:]
     command = 'sort -k 1 top > '+ new_file 
     launch_shell_waiting(command)
 
@@ -34,7 +33,6 @@ def top_n_2file(filename , n_lines ,column ,  reverse_order = False):
     launch_shell_no_wait(command)
 
     return new_file
-
 
 
 """
@@ -65,4 +63,4 @@ output is saved to file top_filename
 """
 if __name__ == "__main__":
     n_lines = get_thres(sys.argv[1] , sys.argv )
-    top_n_2file(sys.argv[1] , n_lines ,  2  )
+    top_n_2file(sys.argv[1] , n_lines ,  3  )

@@ -8,6 +8,473 @@
 - wordonceseen - transition is always high because word was seen once - fix :smooth transition.
 
 
+the new algo solves this , we can see increase word length does not change the preformence
 
-p_my_z : best so far , prob for new word : 0.25
-(0.6865183840217884, 0.6791808873720137, 0.6828299246015621)
+
+
+
+NEW ALGORITHM BUT WITHOUT NEG : LENGTH DOESNT CHANGE SCORE BUT SCORE IS LOWER
+
+
+SAME RESULTS WITH LEN 15 AND LEN 20!!!!:
+best so far , p_my_z ,new_word_prob=6.5 q('',w)=0.25 len = 10
+(0.5983575101696216, 0.7001975929585055, 0.6562841120721764)
+
+increasing text to all we get F of 0.6777
+
+now on old segment we can see decrease as we increase length
+regular prob(p1 - default z)
+len         f
+7           0.6083
+10          0.6080
+15          0.586
+19          0.57
+
+p_my_z
+len         f
+7           0.55
+10          0.51
+15          0.41
+19          0.39
+
+
+
+COMPARING NEW ALGORITHMS(POINTWISE PROB) BUT WITHOUT THE NEGATIVE END OF WORD. USING P_MY_Z
+NO DIFFERENCE WITH LENGTH BUT SCORES ARE LOWER
+len         f
+7           0.563015141062416
+10          0.5661783509297483
+15          0.5662404092071612
+19          0.5662404092071612
+
+
+
+
+SEG_PROB (old ==0.25 in q on emptystring'')
+
+0.59136331192 0.446470271241 0.508802456499
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  7
+new word prob  0.25
+______________________________________
+0.556831228473 0.304921860966 0.394057222448
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  10
+new word prob  0.25
+______________________________________
+0.304463336876 0.102927968385 0.153846153846
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  15
+new word prob  0.25
+______________________________________
+0.246647847565 0.0627806718161 0.100085910653
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  19
+new word prob  0.25
+______________________________________
+0.615367051033 0.484102748338 0.541899160509
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  7
+new word prob  0.5
+______________________________________
+0.625916504564 0.375696066104 0.469551551889
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  10
+new word prob  0.5
+______________________________________
+0.454460750058 0.175229028202 0.252933169119
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  15
+new word prob  0.5
+______________________________________
+0.353497164461 0.100772408838 0.156835336874
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  19
+new word prob  0.5
+______________________________________
+0.64157014157 0.537273217173 0.58480789911
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  7
+new word prob  1.0
+______________________________________
+0.685416941114 0.467307346865 0.555727636849
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  10
+new word prob  1.0
+______________________________________
+0.662897895286 0.34228489312 0.45146004857
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  15
+new word prob  1.0
+______________________________________
+0.558380414313 0.213041135261 0.308412430113
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  19
+new word prob  1.0
+______________________________________
+
+                 p_new_word = 0.25*4 = 1 and result does not change with length
+
+                0.535539053176 0.725435602659 0.616188587122
+                prob function  <function prob at 0x7f471c0f50c8>
+                end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+                q alpha  1
+                length  7
+                new word prob  4.0
+                ______________________________________
+                0.557871832667 0.713849470092 0.626295260234
+                prob function  <function prob at 0x7f471c0f50c8>
+                end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+                q alpha  1
+                length  10
+                new word prob  4.0
+                ______________________________________
+                0.561665357423 0.706394826657 0.625770776147
+                prob function  <function prob at 0x7f471c0f50c8>
+                end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+                q alpha  1
+                length  15
+                new word prob  4.0
+                ______________________________________
+                0.5620285899 0.70271241243 0.624545998803
+                prob function  <function prob at 0x7f471c0f50c8>
+                end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+                q alpha  1
+                length  19
+                new word prob  4.0
+
+
+______________________________________
+0.256487499407 0.971169391054 0.405801996547
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  7
+new word prob  10.0
+______________________________________
+0.256565992076 0.971259206036 0.405908075746
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  10
+new word prob  10.0
+______________________________________
+0.256565992076 0.971259206036 0.405908075746
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  15
+new word prob  10.0
+______________________________________
+0.256565992076 0.971259206036 0.405908075746
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  1
+length  19
+new word prob  10.0
+______________________________________
+0.601784456445 0.460391593318 0.521677182984
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  7
+new word prob  0.25
+______________________________________
+0.503414959187 0.271420873002 0.352687168116
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  10
+new word prob  0.25
+______________________________________
+0.217451523546 0.070504760194 0.106483993489
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  15
+new word prob  0.25
+______________________________________
+0.16449746927 0.0408658164182 0.0654676258993
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  19
+new word prob  0.25
+______________________________________
+0.631532329495 0.512304652416 0.565704651393
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  7
+new word prob  0.5
+______________________________________
+0.606109799292 0.368870127537 0.458626465662
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  10
+new word prob  0.5
+______________________________________
+0.329795299469 0.117208550386 0.172950765357
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  15
+new word prob  0.5
+______________________________________
+0.221690044475 0.058200107778 0.092196058903
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  19
+new word prob  0.5
+______________________________________
+0.654636540231 0.575085324232 0.6122878317
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  7
+new word prob  1.0
+______________________________________
+0.671022583101 0.475031435243 0.556268405553
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  10
+new word prob  1.0
+______________________________________
+0.568462401796 0.272947727681 0.368810679612
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  15
+new word prob  1.0
+______________________________________
+0.438827641839 0.146578049219 0.219753585134
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  19
+new word prob  1.0
+______________________________________
+0.482581571247 0.785072750135 0.597736519985
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  7
+new word prob  4.0
+______________________________________
+0.491654281468 0.772498652775 0.600880257091
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  10
+new word prob  4.0
+______________________________________
+0.495406360424 0.75552362134 0.598420715658
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  15
+new word prob  4.0
+______________________________________
+0.497506159486 0.743578228849 0.596147614761
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  19
+new word prob  4.0
+______________________________________
+0.251800727239 0.976468474942 0.400360884535
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  7
+new word prob  10.0
+______________________________________
+0.2518065592 0.976468474942 0.400368256306
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  10
+new word prob  10.0
+______________________________________
+0.2518065592 0.976468474942 0.400368256306
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  15
+new word prob  10.0
+______________________________________
+0.2518065592 0.976468474942 0.400368256306
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  5
+length  19
+new word prob  10.0
+______________________________________
+0.613688562242 0.479971259206 0.538655377482
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  7
+new word prob  0.25
+______________________________________
+0.485987696514 0.255433806359 0.334864005652
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  10
+new word prob  0.25
+______________________________________
+0.194213692352 0.0608945572121 0.0927179487179
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  15
+new word prob  0.25
+______________________________________
+0.147710487445 0.0359259924555 0.0577951163127
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  19
+new word prob  0.25
+______________________________________
+0.642162624212 0.539788036645 0.586541745962
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  7
+new word prob  0.5
+______________________________________
+0.589108910891 0.352703430932 0.441235955056
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  10
+new word prob  0.5
+______________________________________
+0.273630504834 0.0915214657805 0.137165163548
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  15
+new word prob  0.5
+______________________________________
+0.177146963708 0.0442787857015 0.0708486024287
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  19
+new word prob  0.5
+______________________________________
+0.653069153069 0.603915933178 0.6275314979
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  7
+new word prob  1.0
+______________________________________
+0.660122386537 0.465061972337 0.545684476763
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  10
+new word prob  1.0
+______________________________________
+0.462367910287 0.192563319562 0.271891446326
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  15
+new word prob  1.0
+______________________________________
+0.3078125 0.0884677564218 0.137435468118
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  19
+new word prob  1.0
+______________________________________
+0.414842711564 0.840937668403 0.555601708996
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  7
+new word prob  4.0
+______________________________________
+0.42158794154 0.82647745644 0.558356845969
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  10
+new word prob  4.0
+______________________________________
+0.429763833652 0.786150529908 0.555728389575
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  15
+new word prob  4.0
+______________________________________
+0.435839664658 0.747081013113 0.550514576922
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  19
+new word prob  4.0
+______________________________________
+0.248042776888 0.987425902641 0.396487368592
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  7
+new word prob  10.0
+______________________________________
+0.248076358959 0.987425902641 0.396530269968
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  10
+new word prob  10.0
+______________________________________
+0.248059216465 0.987246272678 0.396493885943
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  15
+new word prob  10.0
+______________________________________
+0.248042246846 0.987156457697 0.396464965281
+prob function  <function prob at 0x7f471c0f50c8>
+end negaition  <segment.probas.Neg_Prob instance at 0x7f4715102b48>
+q alpha  20
+length  19
+new word prob  10.0
+______________________________________
+

@@ -1,8 +1,8 @@
 import random
 import string
 import subprocess
-
 import rand_noise
+
 
 line_len = 600
 

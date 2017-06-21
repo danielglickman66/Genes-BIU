@@ -1,24 +1,5 @@
-from preprocessors.text_processor import Text_PreProcessor
-import scipy.stats as st
-from Z_extractor import Z_Extractor
-import string
 import math
 from collections import defaultdict
-"""
-processor = Text_PreProcessor(600)
-txt = open('./files/stuff/1984.txt').read()
-s = processor.process(txt)
-
-give txt rom eval
-extractor = Z_Extractor(15)
-d = extractor.extract(s )
-"""
-def q(prefix , char):
-    total = 0.
-    for c in string.lowercase:
-        total += math.e ** d[prefix+c]
-
-    return 1. - (math.e ** d[prefix+char]) / total
 
 def q_ignore(prefix , char): return 1.
 
@@ -26,21 +7,21 @@ def segment(seq , length , p , q=q_ignore):
     probs , path = viterbi(seq , length , p , q )
     return _segment(seq , path)
 
-"""to do : fix 2 to much"""
+
 def viterbi(seq , length , p , q ):
     probs = [-float('inf') for letter in seq]
     probs[0] = math.log(p(seq[0]))   #best segmentation probability ending at char i.
     best = range(len(seq)) #for backtracking path
 
     for i in range(0 , len(seq)):
-        limit = max(0 , i - length)
-        for j in range(i  ,limit - 1 , -1 ):
+        limit = max(0 , i - length + 1)
+        for j in range(i  ,limit -1 , -1 ):
             sub_seq = seq[j:i+1]
 
             if j>0: p_best_before = probs[j-1]
             else: p_best_before = math.log(1.) #before start of sequence
 
-            #p_curr = p(sub_seq) * p_best_before   * q( seq[ best[j -1 ] : j ] , seq[j]  )
+
             #use addition and log to avoid small numbers
             p_curr = p_best_before + math.log(p(sub_seq))  + math.log(q(seq[best[j - 1]: j], seq[j]))
             if p_curr > probs[i]:
