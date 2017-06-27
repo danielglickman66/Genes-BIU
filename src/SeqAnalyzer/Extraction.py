@@ -1,4 +1,4 @@
-import extractors
+from core import extractors
 
 import argparse
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import extractors
+import core
+from core import extractors
 import features_selection
 import argparse
 

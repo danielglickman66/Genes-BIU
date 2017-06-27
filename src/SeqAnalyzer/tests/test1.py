@@ -1,6 +1,7 @@
 """ tech/talk text classification , z-score with difference selector"""
-
-import  features_selection.difference_selector
+import context
+import features_selection
+from features_selection import selection_functions
 from control.feature_manager import  Feature_Manager
 from extractors.Z_extractor import Z_Extractor
 from preprocessors.text_processor import Text_PreProcessor
@@ -8,6 +9,7 @@ from sklearn import linear_model
 from sklearn.datasets import fetch_20newsgroups as fetch
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import shuffle
+
 
 cut_len = 99999
 seq_for_stats = 300 #amount to take from each corpus
@@ -64,7 +66,7 @@ def test():
 
 
 extractor = Z_Extractor(sub_seq_len)
-selector = features_selection.Tuples_Merge_Feature_Selector(features_selection.combined)
+selector = features_selection.Tuples_Merge_Feature_Selector(selection_functions.combined)
 #selector = features_selection.difference_selector.Difference_Selector()
 fm = Feature_Manager(extractor , selector)
 
@@ -72,7 +74,7 @@ fm = Feature_Manager(extractor , selector)
 
 def search():
     global seq_for_stats , seq_for_train , seq_for_test
-    funcs = [features_selection.difference , features_selection.chi2 , features_selection.gini , features_selection.combined]
+    funcs = [selection_functions.difference , selection_functions.chi2 , selection_functions.gini , selection_functions.combined]
 
     for f in funcs:
         selector.transformer = f

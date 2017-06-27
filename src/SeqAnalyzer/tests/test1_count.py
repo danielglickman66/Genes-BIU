@@ -1,10 +1,12 @@
 """ tech/talk text classification , z-score with difference selector"""
 
+import context
 import  features_selection.difference_selector
 from control.feature_manager import  Feature_Manager
 from extractors.Z_extractor import Count_Extractor
 from preprocessors.text_processor import Text_PreProcessor
 from sklearn.datasets import fetch_20newsgroups as fetch
+
 
 seq_for_stats = 400 #amount to take from each corpus
 seq_for_train = 800

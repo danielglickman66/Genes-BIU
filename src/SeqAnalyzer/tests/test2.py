@@ -1,6 +1,8 @@
 """ classify tech/news with words seperated using only counts"""
+import context
 from preprocessors.text_processor import Text_PreProcessor
 from sklearn.datasets import fetch_20newsgroups as fetch
+
 
 seq_for_stats = 300 #amount to take from each corpus
 seq_for_train = 600
