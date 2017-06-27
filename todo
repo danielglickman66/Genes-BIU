@@ -1,7 +1,0 @@
-
-
-remove hashcollection  , overhead in feature manager
-put textpreprocessor in dictvectorizer ctor
-make feature manager a custom vectorizer to put in pipeine
-
-CountVectorizer(analyzer='char_wb', ngram_range=(2, 2), min_df=1) -vectorize with subsequence counts

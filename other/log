@@ -1,0 +1,5 @@
+
+REQUIREMENTs
+#RUN THIS IN GENES-BIU/SRC/python!!
+echo 'export PYTHONPATH=$PYTHONPATH:.' >> .bashrc && cat .bashrc
+or export PYTHONPATH=. in src/python

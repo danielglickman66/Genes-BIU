@@ -1,17 +1,210 @@
 
-news:tech , talk , 200:400:200 , maxlen=12 score = 0.845 logistic ,  svm n_feats = 10k
-news:tech , talk , 200:400:200 , maxlen=15 score = 0.825 logistic ,  svm n_feats = 10k
-news:tech , talk , 200:400:200 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
+manager.features
+Out[8]:
+[{u'anopoulo': 86.069442051613549,
+  u'anopoulos': 105.78521837982669,
+  u'ephanopo': 86.069442051613549,
+  u'ephanopou': 105.08374574117055,
+  u'hanopoul': 86.069442051613549,
+  u'hanopoulo': 105.78521837982669,
+  u'mrstepha': 84.927152785131256,
+  u'mrstephan': 104.38227225522419,
+  u'nopoulos': 86.069442051613549,
+  u'phanopo': 65.510437633838379,
+  u'phanopou': 86.069442051613549,
+  u'phanopoul': 105.78521837982669,
+  u'president': 65.799133582597733,
+  u'rstephan': 85.498297939550113,
+  u'rstephano': 105.08374574117055,
+  u'stephan': 65.078003223065579,
+  u'stephano': 86.069442051613549,
+  u'stephanop': 105.78521837982669,
+  u'tephano': 65.078003223065579,
+  u'tephanop': 86.069442051613549,
+  u'tephanopo': 105.78521837982669},
+ {u'appreciat': 33.879829554935945,
+  u'compass': 38.253716191734135,
+  u'comput': 35.160703953539759,
+  u'compute': 46.755102558963728,
+  u'computer': 65.104351809933164,
+  u'detloop': 37.071418565436929,
+  u'detloopc': 45.009995680283495,
+  u'etloopc': 32.172047603042898,
+  u'function': 33.051951750976045,
+  u'graphics': 38.177439656718938,
+  u'ndetloo': 37.071418565436929,
+  u'ndetloop': 51.841509638339794,
+  u'ndetloopc': 59.099094335006797,
+  u'omputer': 46.755102558963728,
+  u'ppreciate': 33.879829554935945,
+  u'program': 34.79680435208239,
+  u'software': 41.593879914843662,
+  u'xxxxxx': 34.548051724321354,
+  u'xxxxxxx': 48.704138400533637,
+  u'xxxxxxxx': 64.648937461189007,
+  u'xxxxxxxxx': 80.363847796966411}]
 
-news:tech , talk , 400:600:300 , maxlen=10 score = 0.855 logistic ,  svm n_feats = 10k
 
-news:tech , talk , 200:400:200 , maxlen=10 score = 0.83 logistic ,  svm n_feats = 50k
+20 features each newsgroup using gini
+we can see that features are really bad because only features with really low count show. also with dom smoothing
+features with small positve z and small negative z and each group cancel each other and the dominator becomes (nearly) 0.
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300     600       0.5975    0.615      40        10
+fm.features
+Out[4]:
+[{u'bro': 76443.595982383005,
+  u'lage': 23553.614632214256,
+  u'ldco': 23553.614632214256,
+  u'midd': 23553.614632214256,
+  u'ntsw': 23553.614632214256,
+  u'nuet': 23553.614632214256,
+  u'nvic': 23553.614632214256,
+  u'ogiv': 23553.614632214256,
+  u'ourg': 23553.614632214256,
+  u'outb': 23553.614632214256,
+  u'paid': 23553.614632214256,
+  u'rtio': 23553.614632214256,
+  u'rtme': 23553.614632214256,
+  u'sino': 23553.614632214256,
+  u'task': 23553.614632214256,
+  u'tdon': 23553.614632214256,
+  u'thof': 23553.614632214256,
+  u'toen': 23553.614632214256,
+  u'uary': 23553.614632214256,
+  u'verh': 23553.614632214256,
+  u'yal': 76443.595982383005},
+ {u'abe': 201463.77216455061,
+  u'apl': 201463.77216455061,
+  u'leb': 2715.7510593081834,
+  u'oms': 2715.7510593081834,
+  u'rsor': 1799.5014816310966,
+  u'rtco': 1799.5014816310966,
+  u'rtwi': 1799.5014816310966,
+  u'rwin': 1799.5014816310966,
+  u'soit': 1799.5014816310966,
+  u'ssoi': 1799.5014816310966,
+  u'ssys': 1799.5014816310966,
+  u'succ': 1799.5014816310966,
+  u'tibl': 1799.5014816310966,
+  u'tobj': 1799.5014816310966,
+  u'uces': 1799.5014816310966,
+  u'unet': 1799.5014816310966,
+  u'wif': 2715.7510593081834,
+  u'xtr': 201463.77216455061,
+  u'yiha': 1799.5014816310966,
+  u'ymar': 1799.5014816310966,
+  u'zeof': 1799.5014816310966}]
+
+
+
+20 features each newsgroup , using difference extraction:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300     600       0.4725    0.655      40        10
+
+[{u'anopoulo': 86.081057441737926,
+  u'anopoulos': 105.79466980743031,
+  u'ephanopo': 86.081057441737926,
+  u'ephanopou': 105.09326023776048,
+  u'hanopoul': 86.081057441737926,
+  u'hanopoulo': 105.79466980743031,
+  u'mrstepha': 84.938924318851562,
+  u'mrstephan': 104.39185066809063,
+  u'nopoulos': 86.081057441737926,
+  u'phanopo': 65.52569526897291,
+  u'phanopou': 86.081057441737926,
+  u'phanopoul': 105.79466980743031,
+  u'president': 65.814324336249186,
+  u'rstephan': 85.509990880294751,
+  u'rstephano': 105.09326023776048,
+  u'stephan': 65.093362147766513,
+  u'stephano': 86.081057441737926,
+  u'stephanop': 105.79466980743031,
+  u'tephano': 65.093362147766513,
+  u'tephanop': 86.081057441737926,
+  u'tephanopo': 105.79466980743031},
+ {u'appreciat': 35.034564651239279,
+  u'compass': 37.899203989573557,
+  u'comput': 35.881634159815214,
+  u'compute': 47.257438348885259,
+  u'computer': 65.950473446475669,
+  u'detloop': 37.098354367642251,
+  u'detloopc': 45.032191072021327,
+  u'function': 33.082151936181127,
+  u'graphics': 38.203597280112639,
+  u'ndetloo': 37.098354367642251,
+  u'ndetloop': 51.860784863930007,
+  u'ndetloopc': 59.116005388584618,
+  u'omputer': 47.257438348885259,
+  u'ppreciate': 35.034564651239279,
+  u'problem': 37.925687028670588,
+  u'program': 42.322196669288942,
+  u'software': 41.617894176066983,
+  u'xxxxxx': 34.576948556354786,
+  u'xxxxxxx': 48.724653250757498,
+  u'xxxxxxxx': 64.664398223758795}]
+
+
+
+
+
+
+NOHEADERS:
+
+classifying tech/talk using Zscore and differenceextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300          600             0.785         0.7475            30000             10
+classifying tech/talk using Zscore and chi2extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300          600             0.7675         0.76            30000             10
+classifying tech/talk using Zscore and giniextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300          600             0.7125         0.75            30000             10
+classifying tech/talk using Zscore and combinedextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300          600             0.7825         0.74            30000             10
+
+
+classifying tech/talk using Zscore and differenceextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+1400          1000             0.7775         0.7475            30000             10
+classifying tech/talk using Zscore and chi2extractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+1400          1000             0.78         0.7675            30000             10
+classifying tech/talk using Zscore and giniextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+1400          1000             0.5575         0.8025            30000             10
+classifying tech/talk using Zscore and combinedextractor:
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+1400          1000             0.775         0.74            30000             10
+
+
+
+#INVALID
+
+classifying tech/talk using Zscore and combined(gini+chi both smoothed with dom=(a+b+1/(a+b) ):
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300     600       0.805    0.7625      30000        10
+
+classifying tech/talk using Zscore and chi smoothed with dom=(a+b+1/(a+b) ) :
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300     600       0.8    0.76      30000        10
+
+classifying tech/talk using Zscore and gini smoothed with dom=(a+b+1/(a+b) ) :
+#samples for stats   #train samples   #logistic_score     #forest_score     #features       #maxsubseqlen
+300     600       0.815    0.735      30000        10
+
+
+
+
+
+
 
 news:tech , talk , 300:600:300 , maxlen=10 score = 0.876 logistic ,  0.826 random_forest n_feats = 30k
 news:tech , talk , 300:600:300 , maxlen=10 score = 0.67 logistic ,  0.853 random_forest n_feats = 30k USING COUNT NOT Z
 
 news:tech , talk , 300:600:300 , maxlen=15 score = 0.866 logistic ,  0.826 random_forest n_feats = 30k
 news:tech , talk , 600:300 ,  score = 0.856 logistic ,  0.866 random_forest
+
 
 
 

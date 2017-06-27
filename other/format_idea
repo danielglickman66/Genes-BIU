@@ -1,0 +1,91 @@
+currently the suffix-array results are stored in 1 table in format:
+score(e.g z)        count           string
+
+e.g:
+12.34           43          the
+2.5             3           book
+2.5             3           blue
+2.5             3           door
+0.4             2           ball
+4.6             3           table
+4.6             3           mouse
+
+
+this table has a lot of redundancy . we will have a lot of strings with the same count in a given length
+and we can avoid writing their score and count multiple times.
+
+for example by using a format like:
+$ LENGTH 4 $
+#COUNT 1 : Z=..
+.
+.
+.
+#COUNT 2 : Z = 0.4
+ball
+.
+.
+#COUNT 3 : Z = 2.5
+book
+blue
+door
+
+$ LENGTH 5 $
+#COUNT 1 : Z=..
+.
+.
+.
+.
+
+#COUNT 3 : Z=4.5
+table
+mouse
+
+.
+.
+.
+$ LENGTH N $
+.
+.
+
+
+
+So by using this format we can save about 2/3 of the space(by not writing count and z multiple times).
+
+But we can do better:
+for calculating the z score of a given length  what we need is a distribution(or histogram)
+of the counts in that length. for example: (*1*)
+count       unique strings in length 3 with that count
+1           99999
+2           1234
+3           100
+4           50
+
+
+in this format it is easy to calculate the mean and std and calculate z score of a string in O(1).
+and when we have the distribution , we can use any scoring function , instead of z-score , easily
+because the distrubition have all the info we need.
+maybe we want a scoring function instead of z that uses the distribution moment or it's geometric mean , when we have the histogram that is easy.
+
+The idea is so write the histogram/distribution of every length to a seperate file.
+this is very little data that the selectio and classification programs that come after the suffix-array count extraction.
+can load easliy.
+
+now for each length and count we will have its own file with all strings in that length and count.
+for example we will have a file called  "4.3" this file will look like:
+book
+blue
+door
+
+now that we can load the distrubition of a length it is easy to score it(using z-score or other score)
+the idea is saving space by grouping shared data , just like the first format example.
+The advandage of this format is we can scan the data by groups rather than individual strings.
+for example what if we want the top 150 strings of length 3(example *1*)? we just have to look
+at files 3.4 and 3.3 because we already have meta data about the distrubition.
+this makes the top k operation O(1)(or O(k) when actully reading) instead of O(n).
+If we want string of length 3 with score above x , that is also O(1)/O(k) because we can look at each
+file and tell the score for that whole file using the distrubtion at hand , ignore the other(most) files.
+Doing the same over strings of all lengths is also easy.
+
+
+
+
