@@ -1,6 +1,6 @@
-jar_file = 'SuffixArray.jar '
-builder_jar = 'SuffixArrayBuilder.jar '
-analyser_jar = 'SuffixArrayAnalyser.jar '
+
+builder_jar = 'SuffixArrayJars/SuffixArrayBuilder.jar '
+analyser_jar = 'SuffixArrayJars/SuffixArrayAnalyzer.jar '
 output_dir = 'files/Output/'
 
 
